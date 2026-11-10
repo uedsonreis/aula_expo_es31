@@ -18,11 +18,10 @@ export default function MapPage() {
     
             setLocation(await Location.getCurrentPositionAsync({}));
         });
-    }, [])
+    }, []);
 
     function goToCreatePage(event: LongPressEvent) {
-        console.log(event.nativeEvent.coordinate)
-        navigation.navigate('place');
+        navigation.navigate('place', event.nativeEvent.coordinate);
     }
 
     return (
@@ -41,7 +40,7 @@ export default function MapPage() {
                 }}
             >
                 <Marker
-                    title='Testando'
+                    title='Exemplo'
                     coordinate={{ latitude: -12.9943265, longitude: -38.4592818 }}
                 />
             </MapView>
