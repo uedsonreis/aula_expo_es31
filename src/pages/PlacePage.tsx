@@ -7,23 +7,25 @@ import * as PlaceRepo from '../services/place.repo';
 
 export default function PlacePage() {
 
-    const route = useRoute()
+    const route = useRoute();
 
-    const place = route.params as any
+    const place = route.params as any;
 
-    const [name, setName] = React.useState('')
-    const [description, setDescription] = React.useState('')
+    const [name, setName] = React.useState('');
+    const [description, setDescription] = React.useState('');
 
-    function save() {
+    async function save() {
         if (!name || name.trim() === '') {
             Alert.alert('O nome do local é obrigatório!');
         }
 
-        PlaceRepo.save({
+        await PlaceRepo.save({
             latitude: place.latitude,
             longitude: place.longitude,
             name, description
         });
+
+
     }
 
     return (

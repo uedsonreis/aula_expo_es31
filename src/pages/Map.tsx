@@ -7,7 +7,7 @@ import * as Location from 'expo-location';
 export default function MapPage() {
 
     const navigation = useNavigation<NavigationProp<any>>();
-    const [location, setLocation] = React.useState<any>()
+    const [location, setLocation] = React.useState<any>();
 
     React.useEffect(() => {
         Location.requestForegroundPermissionsAsync().then(async (result: Location.LocationPermissionResponse) => {
