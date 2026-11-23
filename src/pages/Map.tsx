@@ -4,10 +4,15 @@ import MapView, { LongPressEvent, Marker } from 'react-native-maps';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import * as Location from 'expo-location';
 
+import * as placeRepo from '../services/place.repo';
+import { Place } from '../models/place';
+
 export default function MapPage() {
 
     const navigation = useNavigation<NavigationProp<any>>();
+
     const [location, setLocation] = React.useState<any>();
+    const [places, setPlaces] = React.useState<Place[]>([]);
 
     React.useEffect(() => {
         Location.requestForegroundPermissionsAsync().then(async (result: Location.LocationPermissionResponse) => {
@@ -17,6 +22,10 @@ export default function MapPage() {
             }
     
             setLocation(await Location.getCurrentPositionAsync({}));
+        });
+
+        placeRepo.getPlaces().then(list => {
+            setPlaces(list);
         });
     }, []);
 
@@ -39,10 +48,7 @@ export default function MapPage() {
                     heading: 0, pitch: 0, zoom: 15
                 }}
             >
-                <Marker
-                    title='Exemplo'
-                    coordinate={{ latitude: -12.9943265, longitude: -38.4592818 }}
-                />
+                { places.map(p => <Marker title={p.name} coordinate={p} />) }
             </MapView>
         </View>
     );

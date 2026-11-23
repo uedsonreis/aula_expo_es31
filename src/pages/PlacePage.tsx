@@ -1,6 +1,7 @@
 import React from 'react';
 import { useRoute } from "@react-navigation/native";
 import { Alert, Button, StyleSheet, Text, View } from "react-native";
+import { NavigationProp, useNavigation } from '@react-navigation/native';
 
 import MyInput from "../components/MyInput";
 import * as PlaceRepo from '../services/place.repo';
@@ -8,6 +9,7 @@ import * as PlaceRepo from '../services/place.repo';
 export default function PlacePage() {
 
     const route = useRoute();
+    const navigation = useNavigation<NavigationProp<any>>();
 
     const place = route.params as any;
 
@@ -25,7 +27,7 @@ export default function PlacePage() {
             name, description
         });
 
-
+        navigation.goBack();
     }
 
     return (
