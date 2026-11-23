@@ -14,6 +14,12 @@ export default function MapPage() {
     const [location, setLocation] = React.useState<any>();
     const [places, setPlaces] = React.useState<Place[]>([]);
 
+    function fetchUsers() {
+        placeRepo.getPlaces().then(list => {
+            setPlaces(list);
+        });
+    }
+
     React.useEffect(() => {
         Location.requestForegroundPermissionsAsync().then(async (result: Location.LocationPermissionResponse) => {
             if (result.status !== 'granted') {
@@ -24,9 +30,9 @@ export default function MapPage() {
             setLocation(await Location.getCurrentPositionAsync({}));
         });
 
-        placeRepo.getPlaces().then(list => {
-            setPlaces(list);
-        });
+        fetchUsers();
+
+        navigation.addListener('focus', fetchUsers);
     }, []);
 
     function goToCreatePage(event: LongPressEvent) {
@@ -48,7 +54,7 @@ export default function MapPage() {
                     heading: 0, pitch: 0, zoom: 15
                 }}
             >
-                { places.map(p => <Marker title={p.name} coordinate={p} />) }
+                { places.map(p => <Marker key={`${p.latitude}_${p.longitude}`} title={p.name} coordinate={p} />) }
             </MapView>
         </View>
     );
